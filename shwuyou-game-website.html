@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Play ShWuYou - an exciting monster survival game where strategy meets action. Survive waves of monsters in this thrilling online game!">
+    <meta name="keywords" content="shwuyou, monster survivors, online game, survival game, action game">
+    <title>ShWuYou - Epic Monster Survival Game | Play Online</title>
+    <link rel="canonical" href="https://shwuyou.online">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'apple-blue': '#007AFF',
+                        'apple-green': '#34C759',
+                        'apple-indigo': '#5856D6',
+                        'apple-orange': '#FF9500',
+                        'apple-pink': '#FF2D55',
+                        'apple-purple': '#AF52DE',
+                        'apple-red': '#FF3B30',
+                        'apple-teal': '#5AC8FA',
+                        'apple-yellow': '#FFCC00',
+                        'apple-gray': '#8E8E93',
+                        'apple-light-gray': '#F2F2F7',
+                        'apple-dark-gray': '#1C1C1E',
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+        .game-container {
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            position: relative;
+        }
+        .game-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body class="bg-apple-light-gray dark:bg-apple-dark-gray text-gray-800 dark:text-white">
+    <header class="bg-apple-blue text-white py-6 shadow-lg">
+        <div class="container mx-auto px-4 md:px-6">
+            <nav class="flex justify-between items-center">
+                <div class="text-2xl font-bold">ShWuYou</div>
+                <div class="hidden md:block">
+                    <ul class="flex space-x-6">
+                        <li><a href="#about" class="hover:text-apple-yellow transition-colors">About</a></li>
+                        <li><a href="#gameplay" class="hover:text-apple-yellow transition-colors">Gameplay</a></li>
+                        <li><a href="#controls" class="hover:text-apple-yellow transition-colors">Controls</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="container mx-auto px-4 md:px-6 py-8">
+        <section class="mb-12 text-center">
+            <h1 class="text-3xl md:text-5xl font-bold mb-4 text-apple-blue">ShWuYou: Monster Survivors</h1>
+            <p class="text-xl md:text-2xl mb-8 text-apple-gray dark:text-apple-light-gray">Survive the onslaught of monsters in this thrilling strategic action game!</p>
+            
+            <div class="game-container mb-6 rounded-xl overflow-hidden shadow-xl border-4 border-apple-blue">
+                <iframe src="https://cloud.onlinegames.io/games/2025/unity/monster-survivors/index-og.html" allowfullscreen></iframe>
+            </div>
+            
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
+                <p class="text-lg">Click inside the game area to start playing. Make sure your sound is on for the full experience!</p>
+            </div>
+        </section>
+        
+        <section id="about" class="mb-12 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
+            <h2 class="text-2xl md:text-3xl font-bold mb-4 text-apple-purple">About ShWuYou</h2>
+            <p class="mb-4">ShWuYou is an addictive monster survival game that challenges your strategic thinking and quick reflexes. Navigate through increasingly difficult waves of monsters, collect power-ups, and survive as long as possible in this action-packed adventure.</p>
+            <p>With stunning graphics and immersive gameplay, ShWuYou offers hours of entertainment for casual and hardcore gamers alike. The game features procedurally generated levels, ensuring a unique experience every time you play.</p>
+        </section>
+        
+        <section id="gameplay" class="mb-12 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
+            <h2 class="text-2xl md:text-3xl font-bold mb-4 text-apple-green">Gameplay Features</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2 text-apple-orange">Multiple Character Classes</h3>
+                    <p>Choose from various character classes, each with unique abilities and playstyles to suit your preferences.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-2 text-apple-orange">Skill Tree System</h3>
+                    <p>Develop your character through an extensive skill tree, unlocking powerful abilities as you progress.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-2 text-apple-orange">Diverse Enemies</h3>
+                    <p>Face a wide variety of monsters, each with distinct attack patterns and weaknesses to exploit.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-2 text-apple-orange">Boss Battles</h3>
+                    <p>Test your skills against challenging boss monsters that require strategy and precise timing to defeat.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="controls" class="mb-12 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
+            <h2 class="text-2xl md:text-3xl font-bold mb-4 text-apple-red">Game Controls</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2 text-apple-teal">PC Controls:</h3>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>WASD or Arrow Keys: Move your character</li>
+                        <li>Space: Special ability</li>
+                        <li>1-5 Keys: Switch between weapons/abilities</li>
+                        <li>ESC: Pause menu</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-2 text-apple-teal">Mobile Controls:</h3>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>Virtual joystick: Move your character</li>
+                        <li>Tap special button: Use special ability</li>
+                        <li>Swipe weapon area: Switch between weapons</li>
+                        <li>Menu button: Access pause menu</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <section class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
+            <h2 class="text-2xl md:text-3xl font-bold mb-4 text-apple-indigo">Game Tips</h2>
+            <div class="space-y-4">
+                <p>• Prioritize movement speed early in your skill tree to better evade monster swarms.</p>
+                <p>• Different weapons are effective against different enemy types - experiment to find the best combinations.</p>
+                <p>• Health pickups are rare - use them wisely and only when necessary.</p>
+                <p>• The longer you survive, the more powerful monsters become, but also the better rewards you'll find.</p>
+                <p>• Boss monsters drop rare items that can significantly enhance your character's abilities.</p>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="bg-apple-blue text-white py-8">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-lg font-bold">ShWuYou © 2025</p>
+                    <p>The ultimate monster survival experience</p>
+                </div>
+                <div>
+                    <p>Play now at <a href="https://shwuyou.online" class="underline hover:text-apple-yellow">shwuyou.online</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple dark mode toggle based on system preference
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.body.classList.add('dark');
+        }
+        
+        // Basic game loading optimization
+        window.addEventListener('load', function() {
+            // You could add game preloading logic here
+            console.log('Game page fully loaded');
+        });
+    </script>
+</body>
+</html>
