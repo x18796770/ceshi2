@@ -2,11 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Play ShWuYou - an exciting monster survival game where strategy meets action. Survive waves of monsters in this thrilling online game!">
     <meta name="keywords" content="shwuyou, monster survivors, online game, survival game, action game">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
     <title>ShWuYou - Epic Monster Survival Game | Play Online</title>
     <link rel="canonical" href="https://shwuyou.online">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -35,57 +33,13 @@
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            overscroll-behavior: none;
-            touch-action: manipulation;
         }
-        
-        /* Fixed fullscreen overlay */
-        #fullscreen-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #000;
-            z-index: 9999;
-            overflow: hidden;
-        }
-        
-        #fullscreen-overlay.active {
-            display: block;
-        }
-        
-        #fullscreen-iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        
-        /* Controls for the overlay */
-        #exit-fullscreen-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            border-radius: 4px;
-            padding: 8px 12px;
-            z-index: 10000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        /* Regular game container styles */
         .game-container {
             width: 100%;
             height: 0;
             padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
             position: relative;
         }
-        
         .game-container iframe {
             position: absolute;
             top: 0;
@@ -94,57 +48,9 @@
             height: 100%;
             border: none;
         }
-        
-        /* Fullscreen button styles */
-        .fullscreen-btn {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            z-index: 100;
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            border-radius: 4px;
-            padding: 8px 12px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .fullscreen-btn svg {
-            width: 16px;
-            height: 16px;
-            margin-right: 4px;
-        }
-        
-        /* Remove iOS highlighting of elements on tap */
-        a, button {
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        /* Hide scrollbars when in fullscreen */
-        body.noscroll {
-            overflow: hidden;
-            position: fixed;
-            width: 100%;
-            height: 100%;
-        }
     </style>
 </head>
 <body class="bg-apple-light-gray dark:bg-apple-dark-gray text-gray-800 dark:text-white">
-    <!-- Fullscreen overlay for mobile devices -->
-    <div id="fullscreen-overlay">
-        <iframe id="fullscreen-iframe" allowfullscreen="true" allow="fullscreen"></iframe>
-        <button id="exit-fullscreen-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-            Exit
-        </button>
-    </div>
-
     <header class="bg-apple-blue text-white py-6 shadow-lg">
         <div class="container mx-auto px-4 md:px-6">
             <nav class="flex justify-between items-center">
@@ -156,44 +62,21 @@
                         <li><a href="#controls" class="hover:text-apple-yellow transition-colors">Controls</a></li>
                     </ul>
                 </div>
-                <div class="md:hidden">
-                    <button id="mobile-menu-btn" class="p-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="3" y1="12" x2="21" y2="12"></line>
-                            <line x1="3" y1="6" x2="21" y2="6"></line>
-                            <line x1="3" y1="18" x2="21" y2="18"></line>
-                        </svg>
-                    </button>
-                </div>
             </nav>
-            <div id="mobile-menu" class="hidden mt-4 md:hidden">
-                <ul class="flex flex-col space-y-2">
-                    <li><a href="#about" class="block py-2 hover:text-apple-yellow transition-colors">About</a></li>
-                    <li><a href="#gameplay" class="block py-2 hover:text-apple-yellow transition-colors">Gameplay</a></li>
-                    <li><a href="#controls" class="block py-2 hover:text-apple-yellow transition-colors">Controls</a></li>
-                </ul>
-            </div>
         </div>
     </header>
     
     <main class="container mx-auto px-4 md:px-6 py-8">
-        <section class="game-section mb-12 text-center">
+        <section class="mb-12 text-center">
             <h1 class="text-3xl md:text-5xl font-bold mb-4 text-apple-blue">ShWuYou: Monster Survivors</h1>
             <p class="text-xl md:text-2xl mb-8 text-apple-gray dark:text-apple-light-gray">Survive the onslaught of monsters in this thrilling strategic action game!</p>
             
-            <div id="game-container" class="game-container mb-6 rounded-xl overflow-hidden shadow-xl border-4 border-apple-blue relative">
-                <iframe id="game-frame" src="https://cloud.onlinegames.io/games/2025/unity/monster-survivors/index-og.html" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
-                <button id="fullscreen-btn" class="fullscreen-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h4a1 1 0 010 2H6.414l2.293 2.293a1 1 0 01-1.414 1.414L5 6.414V8a1 1 0 01-2 0V4zm9 1a1 1 0 010-2h4a1 1 0 011 1v4a1 1 0 01-2 0V6.414l-2.293 2.293a1 1 0 11-1.414-1.414L13.586 5H12zm-9 7a1 1 0 012 0v1.586l2.293-2.293a1 1 0 011.414 1.414L6.414 15H8a1 1 0 010 2H4a1 1 0 01-1-1v-4zm13-1a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 010-2h1.586l-2.293-2.293a1 1 0 011.414-1.414L15 13.586V12a1 1 0 011-1z" clip-rule="evenodd" />
-                    </svg>
-                    <span>Fullscreen</span>
-                </button>
+            <div class="game-container mb-6 rounded-xl overflow-hidden shadow-xl border-4 border-apple-blue">
+                <iframe src="https://cloud.onlinegames.io/games/2025/unity/monster-survivors/index-og.html" allowfullscreen></iframe>
             </div>
             
             <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-                <p class="text-lg mb-2">Click inside the game area to start playing. For the best experience, tap the fullscreen button!</p>
-                <p class="text-sm text-apple-red font-medium">Mobile users: Tap the Fullscreen button to enlarge the game to full screen.</p>
+                <p class="text-lg">Click inside the game area to start playing. Make sure your sound is on for the full experience!</p>
             </div>
         </section>
         
@@ -276,140 +159,16 @@
     </footer>
 
     <script>
-        // Mobile menu toggle
-        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
-            const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenu.classList.toggle('hidden');
-        });
-        
-        // Get elements
-        const gameFrame = document.getElementById('game-frame');
-        const fullscreenBtn = document.getElementById('fullscreen-btn');
-        const fullscreenOverlay = document.getElementById('fullscreen-overlay');
-        const fullscreenIframe = document.getElementById('fullscreen-iframe');
-        const exitFullscreenBtn = document.getElementById('exit-fullscreen-btn');
-        
-        // Check if we're on iOS
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-        
-        // Check if we're on mobile
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        
-        // Game URL
-        const gameUrl = "https://cloud.onlinegames.io/games/2025/unity/monster-survivors/index-og.html";
-        
-        // Enter fullscreen function
-        function enterFullscreen() {
-            // Use our custom fullscreen approach for mobile devices
-            if (isMobile) {
-                // Set the iframe src
-                fullscreenIframe.src = gameUrl;
-                
-                // Show the overlay
-                fullscreenOverlay.classList.add('active');
-                
-                // Prevent body scrolling
-                document.body.classList.add('noscroll');
-                
-                // Try to request fullscreen on the overlay as well
-                try {
-                    if (fullscreenOverlay.requestFullscreen) {
-                        fullscreenOverlay.requestFullscreen();
-                    } else if (fullscreenOverlay.webkitRequestFullscreen) {
-                        fullscreenOverlay.webkitRequestFullscreen();
-                    } else if (fullscreenOverlay.mozRequestFullScreen) {
-                        fullscreenOverlay.mozRequestFullScreen();
-                    } else if (fullscreenOverlay.msRequestFullscreen) {
-                        fullscreenOverlay.msRequestFullscreen();
-                    }
-                } catch (e) {
-                    console.log("Using fallback fullscreen mode");
-                }
-                
-                // Hide address bar if possible
-                setTimeout(function() {
-                    window.scrollTo(0, 1);
-                }, 100);
-            } else {
-                // For desktop, use standard Fullscreen API
-                const gameContainer = document.getElementById('game-container');
-                
-                if (gameContainer.requestFullscreen) {
-                    gameContainer.requestFullscreen();
-                } else if (gameContainer.webkitRequestFullscreen) {
-                    gameContainer.webkitRequestFullscreen();
-                } else if (gameContainer.mozRequestFullScreen) {
-                    gameContainer.mozRequestFullScreen();
-                } else if (gameContainer.msRequestFullscreen) {
-                    gameContainer.msRequestFullscreen();
-                }
-            }
-        }
-        
-        // Exit fullscreen function
-        function exitFullscreen() {
-            // Exit our custom fullscreen
-            fullscreenOverlay.classList.remove('active');
-            document.body.classList.remove('noscroll');
-            
-            // Also try to exit browser fullscreen mode if active
-            if (document.fullscreenElement || 
-                document.webkitFullscreenElement || 
-                document.mozFullScreenElement || 
-                document.msFullscreenElement) {
-                
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                } else if (document.webkitExitFullscreen) {
-                    document.webkitExitFullscreen();
-                } else if (document.mozCancelFullScreen) {
-                    document.mozCancelFullScreen();
-                } else if (document.msExitFullscreen) {
-                    document.msExitFullscreen();
-                }
-            }
-            
-            // Stop the iframe content to prevent sound continuation
-            fullscreenIframe.src = '';
-        }
-        
-        // Add click event for fullscreen button
-        fullscreenBtn.addEventListener('click', enterFullscreen);
-        
-        // Add click event for exit fullscreen button
-        exitFullscreenBtn.addEventListener('click', exitFullscreen);
-        
-        // Also exit fullscreen when pressing escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && fullscreenOverlay.classList.contains('active')) {
-                exitFullscreen();
-            }
-        });
-        
-        // Handle browser back button
-        window.addEventListener('popstate', function() {
-            if (fullscreenOverlay.classList.contains('active')) {
-                exitFullscreen();
-                history.pushState(null, document.title, window.location.href);
-            }
-        });
-        
-        // Push state on page load to enable back button handling
-        history.pushState(null, document.title, window.location.href);
-        
-        // Handle orientation changes
-        window.addEventListener('orientationchange', function() {
-            if (fullscreenOverlay.classList.contains('active')) {
-                setTimeout(function() {
-                    window.scrollTo(0, 1);
-                }, 100);
-            }
-        });
-        
-        // Dark mode detection
+        // Simple dark mode toggle based on system preference
         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
             document.body.classList.add('dark');
         }
+        
+        // Basic game loading optimization
+        window.addEventListener('load', function() {
+            // You could add game preloading logic here
+            console.log('Game page fully loaded');
+        });
     </script>
 </body>
 </html>
