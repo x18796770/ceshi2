@@ -1,415 +1,244 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="Play ShWuYou - an exciting monster survival game where strategy meets action. Survive waves of monsters in this thrilling online game!">
-    <meta name="keywords" content="shwuyou, monster survivors, online game, survival game, action game">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <title>ShWuYou - Epic Monster Survival Game | Play Online</title>
-    <link rel="canonical" href="https://shwuyou.online">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'apple-blue': '#007AFF',
-                        'apple-green': '#34C759',
-                        'apple-indigo': '#5856D6',
-                        'apple-orange': '#FF9500',
-                        'apple-pink': '#FF2D55',
-                        'apple-purple': '#AF52DE',
-                        'apple-red': '#FF3B30',
-                        'apple-teal': '#5AC8FA',
-                        'apple-yellow': '#FFCC00',
-                        'apple-gray': '#8E8E93',
-                        'apple-light-gray': '#F2F2F7',
-                        'apple-dark-gray': '#1C1C1E',
-                    },
-                },
-            },
-        }
-    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>游戏界面按钮优化</title>
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            overscroll-behavior: none;
-            touch-action: manipulation;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #333;
         }
         
-        /* Fixed fullscreen overlay */
-        #fullscreen-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #000;
-            z-index: 9999;
+        .game-container {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            margin: 0 auto;
+            background-color: #472e2e;
             overflow: hidden;
         }
         
-        #fullscreen-overlay.active {
-            display: block;
-        }
-        
-        #fullscreen-iframe {
+        .game-content {
             width: 100%;
             height: 100%;
-            border: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
         
-        /* Controls for the overlay */
-        #exit-fullscreen-btn {
+        .game-title {
+            font-size: 40px;
+            color: gold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+        }
+        
+        .play-button {
+            background-color: #f0c040;
+            color: #333;
+            border: 4px solid #8a7520;
+            border-radius: 10px;
+            padding: 10px 40px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        
+        .ad-container {
+            position: absolute;
+            width: 350px;
+            height: 280px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #1a2542;
+            border: 3px solid #4a6da7;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .ad-header {
+            width: 100%;
+            background-color: #ffcc00;
+            color: #333;
+            padding: 5px 0;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .ad-content {
+            width: 100%;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .red-blocks {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2px;
+        }
+        
+        .red-block {
+            width: 30px;
+            height: 30px;
+            background-color: #d32f2f;
+            border: 1px solid #9a0007;
+        }
+        
+        .ad-title {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        }
+        
+        .play-ad-button {
+            background-color: #ffcc00;
+            color: #333;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        /* 改进的按钮样式 */
+        .skip-ad-button {
             position: absolute;
             top: 10px;
             right: 10px;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: #f44336;
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 5px;
             padding: 8px 12px;
-            z-index: 10000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 20;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
         
-        /* Regular game container styles */
-        .game-container {
-            width: 100%;
-            height: 0;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-            position: relative;
-        }
-        
-        .game-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        
-        /* Fullscreen button styles */
-        .fullscreen-btn {
+        .fullscreen-button {
             position: absolute;
             bottom: 10px;
             right: 10px;
-            z-index: 100;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: #2196F3;
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 5px;
             padding: 8px 12px;
+            font-size: 14px;
+            font-weight: bold;
             cursor: pointer;
+            z-index: 20;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .developer-logo {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .coin-display {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: gold;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .settings-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            background-color: #555;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
         }
         
-        .fullscreen-btn svg {
-            width: 16px;
-            height: 16px;
-            margin-right: 4px;
+        .settings-icon {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #aaa;
+            border-radius: 50%;
+            position: relative;
         }
         
-        /* Remove iOS highlighting of elements on tap */
-        a, button {
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        /* Hide scrollbars when in fullscreen */
-        body.noscroll {
-            overflow: hidden;
-            position: fixed;
-            width: 100%;
-            height: 100%;
+        .settings-icon:before {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: #aaa;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
     </style>
 </head>
-<body class="bg-apple-light-gray dark:bg-apple-dark-gray text-gray-800 dark:text-white">
-    <!-- Fullscreen overlay for mobile devices -->
-    <div id="fullscreen-overlay">
-        <iframe id="fullscreen-iframe" allowfullscreen="true" allow="fullscreen"></iframe>
-        <button id="exit-fullscreen-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-            Exit
-        </button>
+<body>
+    <div class="game-container">
+        <div class="settings-button">
+            <div class="settings-icon"></div>
+        </div>
+        <div class="coin-display">🪙 2279</div>
+        
+        <div class="game-content">
+            <div class="game-title">MONSTER SURVIVORS</div>
+            <button class="play-button">PLAY</button>
+        </div>
+        
+        <div class="ad-container">
+            <div class="ad-header">RECENTLY ADDED</div>
+            <div class="ad-content">
+                <div class="red-blocks">
+                    <div class="red-block"></div>
+                    <div class="red-block"></div>
+                    <div class="red-block"></div>
+                    <div class="red-block"></div>
+                    <div class="red-block"></div>
+                    <div class="red-block"></div>
+                    <div class="red-block"></div>
+                    <div class="red-block"></div>
+                </div>
+                <div class="ad-title">BLOCK BLAST</div>
+                <button class="play-ad-button">START PLAYING!</button>
+            </div>
+            <!-- 改进的跳过广告按钮 - 移动到右上角 -->
+            <button class="skip-ad-button">跳过广告 ▶▶</button>
+        </div>
+        
+        <!-- 改进的全屏按钮 - 保持在右下角但独立显示 -->
+        <button class="fullscreen-button">全屏</button>
+        
+        <div class="developer-logo">FreezeNova.Games</div>
     </div>
-
-    <header class="bg-apple-blue text-white py-6 shadow-lg">
-        <div class="container mx-auto px-4 md:px-6">
-            <nav class="flex justify-between items-center">
-                <div class="text-2xl font-bold">ShWuYou</div>
-                <div class="hidden md:block">
-                    <ul class="flex space-x-6">
-                        <li><a href="#about" class="hover:text-apple-yellow transition-colors">About</a></li>
-                        <li><a href="#gameplay" class="hover:text-apple-yellow transition-colors">Gameplay</a></li>
-                        <li><a href="#controls" class="hover:text-apple-yellow transition-colors">Controls</a></li>
-                    </ul>
-                </div>
-                <div class="md:hidden">
-                    <button id="mobile-menu-btn" class="p-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="3" y1="12" x2="21" y2="12"></line>
-                            <line x1="3" y1="6" x2="21" y2="6"></line>
-                            <line x1="3" y1="18" x2="21" y2="18"></line>
-                        </svg>
-                    </button>
-                </div>
-            </nav>
-            <div id="mobile-menu" class="hidden mt-4 md:hidden">
-                <ul class="flex flex-col space-y-2">
-                    <li><a href="#about" class="block py-2 hover:text-apple-yellow transition-colors">About</a></li>
-                    <li><a href="#gameplay" class="block py-2 hover:text-apple-yellow transition-colors">Gameplay</a></li>
-                    <li><a href="#controls" class="block py-2 hover:text-apple-yellow transition-colors">Controls</a></li>
-                </ul>
-            </div>
-        </div>
-    </header>
-    
-    <main class="container mx-auto px-4 md:px-6 py-8">
-        <section class="game-section mb-12 text-center">
-            <h1 class="text-3xl md:text-5xl font-bold mb-4 text-apple-blue">ShWuYou: Monster Survivors</h1>
-            <p class="text-xl md:text-2xl mb-8 text-apple-gray dark:text-apple-light-gray">Survive the onslaught of monsters in this thrilling strategic action game!</p>
-            
-            <div id="game-container" class="game-container mb-6 rounded-xl overflow-hidden shadow-xl border-4 border-apple-blue relative">
-                <iframe id="game-frame" src="https://cloud.onlinegames.io/games/2025/unity/monster-survivors/index-og.html" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
-                <button id="fullscreen-btn" class="fullscreen-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h4a1 1 0 010 2H6.414l2.293 2.293a1 1 0 01-1.414 1.414L5 6.414V8a1 1 0 01-2 0V4zm9 1a1 1 0 010-2h4a1 1 0 011 1v4a1 1 0 01-2 0V6.414l-2.293 2.293a1 1 0 11-1.414-1.414L13.586 5H12zm-9 7a1 1 0 012 0v1.586l2.293-2.293a1 1 0 011.414 1.414L6.414 15H8a1 1 0 010 2H4a1 1 0 01-1-1v-4zm13-1a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 010-2h1.586l-2.293-2.293a1 1 0 011.414-1.414L15 13.586V12a1 1 0 011-1z" clip-rule="evenodd" />
-                    </svg>
-                    <span>Fullscreen</span>
-                </button>
-            </div>
-            
-            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-                <p class="text-lg mb-2">Click inside the game area to start playing. For the best experience, tap the fullscreen button!</p>
-                <p class="text-sm text-apple-red font-medium">Mobile users: Tap the Fullscreen button to enlarge the game to full screen.</p>
-            </div>
-        </section>
-        
-        <section id="about" class="mb-12 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-            <h2 class="text-2xl md:text-3xl font-bold mb-4 text-apple-purple">About ShWuYou</h2>
-            <p class="mb-4">ShWuYou is an addictive monster survival game that challenges your strategic thinking and quick reflexes. Navigate through increasingly difficult waves of monsters, collect power-ups, and survive as long as possible in this action-packed adventure.</p>
-            <p>With stunning graphics and immersive gameplay, ShWuYou offers hours of entertainment for casual and hardcore gamers alike. The game features procedurally generated levels, ensuring a unique experience every time you play.</p>
-        </section>
-        
-        <section id="gameplay" class="mb-12 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-            <h2 class="text-2xl md:text-3xl font-bold mb-4 text-apple-green">Gameplay Features</h2>
-            <div class="grid md:grid-cols-2 gap-6">
-                <div>
-                    <h3 class="text-xl font-semibold mb-2 text-apple-orange">Multiple Character Classes</h3>
-                    <p>Choose from various character classes, each with unique abilities and playstyles to suit your preferences.</p>
-                </div>
-                <div>
-                    <h3 class="text-xl font-semibold mb-2 text-apple-orange">Skill Tree System</h3>
-                    <p>Develop your character through an extensive skill tree, unlocking powerful abilities as you progress.</p>
-                </div>
-                <div>
-                    <h3 class="text-xl font-semibold mb-2 text-apple-orange">Diverse Enemies</h3>
-                    <p>Face a wide variety of monsters, each with distinct attack patterns and weaknesses to exploit.</p>
-                </div>
-                <div>
-                    <h3 class="text-xl font-semibold mb-2 text-apple-orange">Boss Battles</h3>
-                    <p>Test your skills against challenging boss monsters that require strategy and precise timing to defeat.</p>
-                </div>
-            </div>
-        </section>
-        
-        <section id="controls" class="mb-12 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-            <h2 class="text-2xl md:text-3xl font-bold mb-4 text-apple-red">Game Controls</h2>
-            <div class="grid md:grid-cols-2 gap-6">
-                <div>
-                    <h3 class="text-xl font-semibold mb-2 text-apple-teal">PC Controls:</h3>
-                    <ul class="list-disc pl-5 space-y-2">
-                        <li>WASD or Arrow Keys: Move your character</li>
-                        <li>Space: Special ability</li>
-                        <li>1-5 Keys: Switch between weapons/abilities</li>
-                        <li>ESC: Pause menu</li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-xl font-semibold mb-2 text-apple-teal">Mobile Controls:</h3>
-                    <ul class="list-disc pl-5 space-y-2">
-                        <li>Virtual joystick: Move your character</li>
-                        <li>Tap special button: Use special ability</li>
-                        <li>Swipe weapon area: Switch between weapons</li>
-                        <li>Menu button: Access pause menu</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-        
-        <section class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-            <h2 class="text-2xl md:text-3xl font-bold mb-4 text-apple-indigo">Game Tips</h2>
-            <div class="space-y-4">
-                <p>• Prioritize movement speed early in your skill tree to better evade monster swarms.</p>
-                <p>• Different weapons are effective against different enemy types - experiment to find the best combinations.</p>
-                <p>• Health pickups are rare - use them wisely and only when necessary.</p>
-                <p>• The longer you survive, the more powerful monsters become, but also the better rewards you'll find.</p>
-                <p>• Boss monsters drop rare items that can significantly enhance your character's abilities.</p>
-            </div>
-        </section>
-    </main>
-    
-    <footer class="bg-apple-blue text-white py-8">
-        <div class="container mx-auto px-4 md:px-6">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-4 md:mb-0">
-                    <p class="text-lg font-bold">ShWuYou © 2025</p>
-                    <p>The ultimate monster survival experience</p>
-                </div>
-                <div>
-                    <p>Play now at <a href="https://shwuyou.online" class="underline hover:text-apple-yellow">shwuyou.online</a></p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Mobile menu toggle
-        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
-            const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenu.classList.toggle('hidden');
-        });
-        
-        // Get elements
-        const gameFrame = document.getElementById('game-frame');
-        const fullscreenBtn = document.getElementById('fullscreen-btn');
-        const fullscreenOverlay = document.getElementById('fullscreen-overlay');
-        const fullscreenIframe = document.getElementById('fullscreen-iframe');
-        const exitFullscreenBtn = document.getElementById('exit-fullscreen-btn');
-        
-        // Check if we're on iOS
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-        
-        // Check if we're on mobile
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        
-        // Game URL
-        const gameUrl = "https://cloud.onlinegames.io/games/2025/unity/monster-survivors/index-og.html";
-        
-        // Enter fullscreen function
-        function enterFullscreen() {
-            // Use our custom fullscreen approach for mobile devices
-            if (isMobile) {
-                // Set the iframe src
-                fullscreenIframe.src = gameUrl;
-                
-                // Show the overlay
-                fullscreenOverlay.classList.add('active');
-                
-                // Prevent body scrolling
-                document.body.classList.add('noscroll');
-                
-                // Try to request fullscreen on the overlay as well
-                try {
-                    if (fullscreenOverlay.requestFullscreen) {
-                        fullscreenOverlay.requestFullscreen();
-                    } else if (fullscreenOverlay.webkitRequestFullscreen) {
-                        fullscreenOverlay.webkitRequestFullscreen();
-                    } else if (fullscreenOverlay.mozRequestFullScreen) {
-                        fullscreenOverlay.mozRequestFullScreen();
-                    } else if (fullscreenOverlay.msRequestFullscreen) {
-                        fullscreenOverlay.msRequestFullscreen();
-                    }
-                } catch (e) {
-                    console.log("Using fallback fullscreen mode");
-                }
-                
-                // Hide address bar if possible
-                setTimeout(function() {
-                    window.scrollTo(0, 1);
-                }, 100);
-            } else {
-                // For desktop, use standard Fullscreen API
-                const gameContainer = document.getElementById('game-container');
-                
-                if (gameContainer.requestFullscreen) {
-                    gameContainer.requestFullscreen();
-                } else if (gameContainer.webkitRequestFullscreen) {
-                    gameContainer.webkitRequestFullscreen();
-                } else if (gameContainer.mozRequestFullScreen) {
-                    gameContainer.mozRequestFullScreen();
-                } else if (gameContainer.msRequestFullscreen) {
-                    gameContainer.msRequestFullscreen();
-                }
-            }
-        }
-        
-        // Exit fullscreen function
-        function exitFullscreen() {
-            // Exit our custom fullscreen
-            fullscreenOverlay.classList.remove('active');
-            document.body.classList.remove('noscroll');
-            
-            // Also try to exit browser fullscreen mode if active
-            if (document.fullscreenElement || 
-                document.webkitFullscreenElement || 
-                document.mozFullScreenElement || 
-                document.msFullscreenElement) {
-                
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                } else if (document.webkitExitFullscreen) {
-                    document.webkitExitFullscreen();
-                } else if (document.mozCancelFullScreen) {
-                    document.mozCancelFullScreen();
-                } else if (document.msExitFullscreen) {
-                    document.msExitFullscreen();
-                }
-            }
-            
-            // Stop the iframe content to prevent sound continuation
-            fullscreenIframe.src = '';
-        }
-        
-        // Add click event for fullscreen button
-        fullscreenBtn.addEventListener('click', enterFullscreen);
-        
-        // Add click event for exit fullscreen button
-        exitFullscreenBtn.addEventListener('click', exitFullscreen);
-        
-        // Also exit fullscreen when pressing escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && fullscreenOverlay.classList.contains('active')) {
-                exitFullscreen();
-            }
-        });
-        
-        // Handle browser back button
-        window.addEventListener('popstate', function() {
-            if (fullscreenOverlay.classList.contains('active')) {
-                exitFullscreen();
-                history.pushState(null, document.title, window.location.href);
-            }
-        });
-        
-        // Push state on page load to enable back button handling
-        history.pushState(null, document.title, window.location.href);
-        
-        // Handle orientation changes
-        window.addEventListener('orientationchange', function() {
-            if (fullscreenOverlay.classList.contains('active')) {
-                setTimeout(function() {
-                    window.scrollTo(0, 1);
-                }, 100);
-            }
-        });
-        
-        // Dark mode detection
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.body.classList.add('dark');
-        }
-    </script>
 </body>
 </html>
