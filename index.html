@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="Play ShWuYou - an exciting monster survival game where strategy meets action. Survive waves of monsters in this thrilling online game!">
     <meta name="keywords" content="shwuyou, monster survivors, online game, survival game, action game">
     <title>ShWuYou - Epic Monster Survival Game | Play Online</title>
@@ -33,6 +33,8 @@
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            overscroll-behavior: none; /* Prevents pull-to-refresh on mobile */
+            touch-action: manipulation; /* Optimizes touch behavior */
         }
         .game-container {
             width: 100%;
@@ -48,6 +50,59 @@
             height: 100%;
             border: none;
         }
+        /* Fullscreen button styles */
+        .fullscreen-btn {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            z-index: 100;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .fullscreen-btn svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 4px;
+        }
+        /* Remove iOS highlighting of elements on tap */
+        a, button {
+            -webkit-tap-highlight-color: transparent;
+        }
+        /* When in fullscreen mode */
+        .game-fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background-color: black;
+            padding-bottom: 0 !important;
+        }
+        /* Hide elements when in fullscreen */
+        body.game-is-fullscreen header,
+        body.game-is-fullscreen footer,
+        body.game-is-fullscreen main > *:not(.game-section) {
+            display: none;
+        }
+        /* Adjust container when in fullscreen */
+        body.game-is-fullscreen .game-section {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            width: 100vw;
+        }
+        body.game-is-fullscreen .game-container {
+            padding-bottom: 0;
+            height: 100%;
+        }
     </style>
 </head>
 <body class="bg-apple-light-gray dark:bg-apple-dark-gray text-gray-800 dark:text-white">
@@ -62,21 +117,43 @@
                         <li><a href="#controls" class="hover:text-apple-yellow transition-colors">Controls</a></li>
                     </ul>
                 </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="p-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
             </nav>
+            <div id="mobile-menu" class="hidden mt-4 md:hidden">
+                <ul class="flex flex-col space-y-2">
+                    <li><a href="#about" class="block py-2 hover:text-apple-yellow transition-colors">About</a></li>
+                    <li><a href="#gameplay" class="block py-2 hover:text-apple-yellow transition-colors">Gameplay</a></li>
+                    <li><a href="#controls" class="block py-2 hover:text-apple-yellow transition-colors">Controls</a></li>
+                </ul>
+            </div>
         </div>
     </header>
     
     <main class="container mx-auto px-4 md:px-6 py-8">
-        <section class="mb-12 text-center">
+        <section class="game-section mb-12 text-center">
             <h1 class="text-3xl md:text-5xl font-bold mb-4 text-apple-blue">ShWuYou: Monster Survivors</h1>
             <p class="text-xl md:text-2xl mb-8 text-apple-gray dark:text-apple-light-gray">Survive the onslaught of monsters in this thrilling strategic action game!</p>
             
-            <div class="game-container mb-6 rounded-xl overflow-hidden shadow-xl border-4 border-apple-blue">
-                <iframe src="https://cloud.onlinegames.io/games/2025/unity/monster-survivors/index-og.html" allowfullscreen></iframe>
+            <div id="game-container" class="game-container mb-6 rounded-xl overflow-hidden shadow-xl border-4 border-apple-blue relative">
+                <iframe id="game-frame" src="https://cloud.onlinegames.io/games/2025/unity/monster-survivors/index-og.html" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+                <button id="fullscreen-btn" class="fullscreen-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h4a1 1 0 010 2H6.414l2.293 2.293a1 1 0 01-1.414 1.414L5 6.414V8a1 1 0 01-2 0V4zm9 1a1 1 0 010-2h4a1 1 0 011 1v4a1 1 0 01-2 0V6.414l-2.293 2.293a1 1 0 11-1.414-1.414L13.586 5H12zm-9 7a1 1 0 012 0v1.586l2.293-2.293a1 1 0 011.414 1.414L6.414 15H8a1 1 0 010 2H4a1 1 0 01-1-1v-4zm13-1a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 010-2h1.586l-2.293-2.293a1 1 0 011.414-1.414L15 13.586V12a1 1 0 011-1z" clip-rule="evenodd" />
+                    </svg>
+                    <span class="hidden sm:inline">Fullscreen</span>
+                </button>
             </div>
             
             <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-                <p class="text-lg">Click inside the game area to start playing. Make sure your sound is on for the full experience!</p>
+                <p class="text-lg">Click inside the game area to start playing. For the best experience, tap the fullscreen button!</p>
             </div>
         </section>
         
@@ -159,15 +236,130 @@
     </footer>
 
     <script>
-        // Simple dark mode toggle based on system preference
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Fullscreen functionality
+        const gameContainer = document.getElementById('game-container');
+        const gameFrame = document.getElementById('game-frame');
+        const fullscreenBtn = document.getElementById('fullscreen-btn');
+        
+        // Check if browser supports the Fullscreen API
+        function getFullscreenElement() {
+            return document.fullscreenElement || 
+                   document.webkitFullscreenElement || 
+                   document.mozFullscreenElement || 
+                   document.msFullscreenElement;
+        }
+        
+        // Toggle fullscreen functions for different browsers
+        function toggleFullscreen() {
+            if (!getFullscreenElement()) {
+                // Special handling for iOS Safari which doesn't support true fullscreen
+                if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+                    document.body.classList.add('game-is-fullscreen');
+                    gameContainer.classList.add('game-fullscreen');
+                    fullscreenBtn.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4 4a1 1 0 011-1h4a1 1 0 010 2H7.414l2.293 2.293a1 1 0 01-1.414 1.414L6 6.414V8a1 1 0 01-2 0V4zm11-1a1 1 0 010 2h-1.586l2.293 2.293a1 1 0 01-1.414 1.414L12 6.414V8a1 1 0 11-2 0V4a1 1 0 011-1h4zm-9 8a1 1 0 011 1v1.586l2.293-2.293a1 1 0 111.414 1.414L8.414 15H10a1 1 0 010 2H6a1 1 0 01-1-1v-4a1 1 0 011-1zm13 1a1 1 0 01-1 1h-1.586l2.293 2.293a1 1 0 01-1.414 1.414L14 13.586V15a1 1 0 11-2 0v-4a1 1 0 011-1h4a1 1 0 011 1z" clip-rule="evenodd" />
+                        </svg>
+                        <span class="hidden sm:inline">Exit</span>
+                    `;
+                    // Try to enter fullscreen mode for the iframe itself (may not work on some devices)
+                    try {
+                        if (gameFrame.requestFullscreen) {
+                            gameFrame.requestFullscreen();
+                        } else if (gameFrame.webkitRequestFullscreen) {
+                            gameFrame.webkitRequestFullscreen();
+                        } else if (gameFrame.mozRequestFullScreen) {
+                            gameFrame.mozRequestFullScreen();
+                        } else if (gameFrame.msRequestFullscreen) {
+                            gameFrame.msRequestFullscreen();
+                        }
+                    } catch(e) {
+                        console.log("Fallback to custom fullscreen mode");
+                    }
+                } else {
+                    // Standard fullscreen API for other browsers
+                    if (gameContainer.requestFullscreen) {
+                        gameContainer.requestFullscreen();
+                    } else if (gameContainer.webkitRequestFullscreen) {
+                        gameContainer.webkitRequestFullscreen();
+                    } else if (gameContainer.mozRequestFullScreen) {
+                        gameContainer.mozRequestFullScreen();
+                    } else if (gameContainer.msRequestFullscreen) {
+                        gameContainer.msRequestFullscreen();
+                    }
+                }
+            } else {
+                // Exit fullscreen
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+                
+                // Also handle custom fullscreen mode for iOS
+                document.body.classList.remove('game-is-fullscreen');
+                gameContainer.classList.remove('game-fullscreen');
+            }
+        }
+        
+        // Event listeners for fullscreen changes
+        document.addEventListener('fullscreenchange', updateFullscreenButton);
+        document.addEventListener('webkitfullscreenchange', updateFullscreenButton);
+        document.addEventListener('mozfullscreenchange', updateFullscreenButton);
+        document.addEventListener('MSFullscreenChange', updateFullscreenButton);
+        
+        function updateFullscreenButton() {
+            if (getFullscreenElement()) {
+                fullscreenBtn.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M4 4a1 1 0 011-1h4a1 1 0 010 2H7.414l2.293 2.293a1 1 0 01-1.414 1.414L6 6.414V8a1 1 0 01-2 0V4zm11-1a1 1 0 010 2h-1.586l2.293 2.293a1 1 0 01-1.414 1.414L12 6.414V8a1 1 0 11-2 0V4a1 1 0 011-1h4zm-9 8a1 1 0 011 1v1.586l2.293-2.293a1 1 0 111.414 1.414L8.414 15H10a1 1 0 010 2H6a1 1 0 01-1-1v-4a1 1 0 011-1zm13 1a1 1 0 01-1 1h-1.586l2.293 2.293a1 1 0 01-1.414 1.414L14 13.586V15a1 1 0 11-2 0v-4a1 1 0 011-1h4a1 1 0 011 1z" clip-rule="evenodd" />
+                    </svg>
+                    <span class="hidden sm:inline">Exit</span>
+                `;
+            } else {
+                fullscreenBtn.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h4a1 1 0 010 2H6.414l2.293 2.293a1 1 0 01-1.414 1.414L5 6.414V8a1 1 0 01-2 0V4zm9 1a1 1 0 010-2h4a1 1 0 011 1v4a1 1 0 01-2 0V6.414l-2.293 2.293a1 1 0 11-1.414-1.414L13.586 5H12zm-9 7a1 1 0 012 0v1.586l2.293-2.293a1 1 0 011.414 1.414L6.414 15H8a1 1 0 010 2H4a1 1 0 01-1-1v-4zm13-1a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 010-2h1.586l-2.293-2.293a1 1 0 011.414-1.414L15 13.586V12a1 1 0 011-1z" clip-rule="evenodd" />
+                    </svg>
+                    <span class="hidden sm:inline">Fullscreen</span>
+                `;
+                document.body.classList.remove('game-is-fullscreen');
+                gameContainer.classList.remove('game-fullscreen');
+            }
+        }
+        
+        // Add click event for fullscreen button
+        fullscreenBtn.addEventListener('click', toggleFullscreen);
+        
+        // Dark mode detection
         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
             document.body.classList.add('dark');
         }
         
-        // Basic game loading optimization
-        window.addEventListener('load', function() {
-            // You could add game preloading logic here
-            console.log('Game page fully loaded');
+        // Prevent scrolling when in fullscreen mode on touch devices
+        document.body.addEventListener('touchmove', function(e) {
+            if (document.body.classList.contains('game-is-fullscreen')) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+        
+        // Fix for iOS orientation changes
+        window.addEventListener('orientationchange', function() {
+            if (document.body.classList.contains('game-is-fullscreen')) {
+                setTimeout(function() {
+                    window.scrollTo(0, 0);
+                }, 50);
+            }
         });
     </script>
 </body>
